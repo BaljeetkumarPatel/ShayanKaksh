@@ -4,7 +4,8 @@ import mongoose from "mongoose";
 const connectDB = async () => {
     try{
         mongoose.connection.on('connected', ()=> console.log("Database connected"));
-        await mongoose.connect(`${process.env.MONODB_URI}/SHAYANKAKSH`);
+        await mongoose.connect(`${process.env.MONODB_URI}`);
+        //await mongoose.connect(`${process.env.MONODB_URI}/SHAYANKAKSH`);
     }
     catch(error){
         console.log(error.message);

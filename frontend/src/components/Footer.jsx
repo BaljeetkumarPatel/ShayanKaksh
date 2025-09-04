@@ -66,7 +66,7 @@ const Footer= ()=>{
                 <ul className='flex items-center gap-4'>
                     <li><a href="/privacy-policy.pdf" target="_blank" rel="noopener noreferrer">Privacy & Policy</a></li>
                     <li><a href="/ShayanKaksh_Terms_And_Conditions.pdf">Terms & Conditions</a></li>
-                    <a href="https://www.google.com/maps/search/?api=1&query=BMS+Institute+of+Technology+and+Management+Bengaluru" target="_blank" rel="noopener noreferrer"  class="text-gray-300 hover:text-gray-300 font-semibold  transition-colors duration-300">📍 Site Map</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=BMS+Institute+of+Technology+and+Management+Bengaluru" target="_blank" rel="noopener noreferrer"  className="text-gray-300 hover:text-gray-300 font-semibold  transition-colors duration-300">📍 Site Map</a>
 
                 </ul>
             </div>

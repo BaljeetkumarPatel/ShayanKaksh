@@ -1,12 +1,35 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Title from '../components/Title'
-import { assets, userBookingsDummyData } from '../assets/assets'
+import { assets } from '../assets/assets'
 import { useState } from 'react'
-import { UserButton } from '@clerk/clerk-react'
 
 const MyBookings=()=>{
 
-    const [bookings,setBookings]=useState(userBookingsDummyData)
+    const {axios,getToken,user}=useAppContext()
+    const [bookings,setBookings]=useState([])
+
+    //function to fetch user bookings
+    const fetchUserBookings=async()=>{
+        try {
+            const {data}=await axios.get('api/bookings/user',{headers:{Authorization:`Bearer ${await getToken()}`}})
+            if(data.success){
+                setBookings(data.bookings)
+            }
+            else{
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(error.message || "Failed to fetch bookings")
+        }
+    }
+
+    //use effect to call function
+
+    useEffect(()=>{
+        if(user){
+            fetchUserBookings()
+        }
+    },[ user])
 
     
     return(

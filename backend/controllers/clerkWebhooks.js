@@ -26,23 +26,32 @@ const ClerkWebhooks= async (req,res)=>{
         const {data,type} = req.body;
 
         //create object mean data in userData after getting data from request body
-        const userData={
-            _id:data.id,
-            email:data.email_addresses[0].email_address,
-            username:data.first_name + " " + data.last_name,
-            image:data.profile_image_url,
-        }
+        
 
         //Switch case statement based different type of eveent recieving fron request body
         switch(type){
-            case "user.created": //when user is created
+            case "user.created":{ //when user is created
+                const userData={
+                     _id:data.id,
+                     email:data.email_addresses[0].email_address,
+                     username:data.first_name + " " + data.last_name,
+                     image:data.profile_image_url,
+                }
                 //create new user in database
                 await User.create(userData);
                 break;
-            case "user.updated": //when user is updated
+            }
+            case "user.updated":{//when user is updated
+                 const userData={
+                     _id:data.id,
+                     email:data.email_addresses[0].email_address,
+                     username:data.first_name + " " + data.last_name,
+                     image:data.profile_image_url,
+                 }
                 //update user in database
                 await User.findByIdAndUpdate(data.id,userData);
                 break;
+                }
             case "user.deleted": //when user is deleted
                 //delete user from database
                 await User.findByIdAndDelete(data.id);
