@@ -2,7 +2,7 @@ import express from 'express';
 import "dotenv/config";
 import cors from 'cors';
 import connectDB from './configs/db.js';
-const PORT = process.env.PORT || 5000;
+const PORT =5000;
 import { clerkMiddleware } from "@clerk/express";
 import ClerkWebhooks from './controllers/clerkWebhooks.js';
 import UserRouter from './routes/userRoutes.js';
@@ -10,6 +10,8 @@ import hotelRouter from './routes/hotelRoutes.js';
 import connectCloudinary from './configs/cloudinary.js';
 import roomRouter from './routes/roomRoutes.js';
 import bookingRouter from './routes/bookingRoutes.js';
+import { stripePayment } from './controllers/bookingController.js';
+import { stripeWebhooks } from './controllers/stripeWebhooks.js';
 
 connectDB();
 connectCloudinary();
@@ -18,6 +20,9 @@ const app = express();
 
 
 app.use(cors());  //allow to backend to any frontend-Enable cross-origin resource sharing
+
+//api to listen to sstripe wwebhooks
+app.post('/api/stripe',express.raw({type:'application/json'}),stripeWebhooks);
 
 //Middleware
 app.use(express.json()); //to accept json data in body of request mean all request will pass in json method
