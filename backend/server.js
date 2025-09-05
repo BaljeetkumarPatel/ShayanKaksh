@@ -2,7 +2,7 @@ import express from 'express';
 import "dotenv/config";
 import cors from 'cors';
 import connectDB from './configs/db.js';
-const PORT =5000;
+const PORT =process.env.PORT || 5000;
 import { clerkMiddleware } from "@clerk/express";
 import ClerkWebhooks from './controllers/clerkWebhooks.js';
 import UserRouter from './routes/userRoutes.js';
@@ -19,7 +19,24 @@ connectCloudinary();
 const app = express();
 
 
-app.use(cors());  //allow to backend to any frontend-Enable cross-origin resource sharing
+// app.use(cors());  //allow to backend to any frontend-Enable cross-origin resource sharing
+const allowedOrigins = [
+  "http://localhost:5173",         // local vite frontend
+  "https://shayan-kaksh.vercel.app" // deployed frontend
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, // allow cookies & auth headers
+  })
+);
 
 //api to listen to sstripe wwebhooks
 app.post('/api/stripe',express.raw({type:'application/json'}),stripeWebhooks);
