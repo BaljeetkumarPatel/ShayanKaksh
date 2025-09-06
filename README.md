@@ -272,7 +272,7 @@ SERVICE_KEY=your_emailjs_service_key
 
 ![Home Page](/screenshot/Home.png)
 
-![Footer](/screenshot/Footer.png)
+![Footer](/screenshot/footer.png)
 
 ![Sign up](/screenshot/Account.png)
 
