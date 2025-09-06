@@ -143,6 +143,7 @@ From an architectural standpoint, this project emphasizes:
 
 
 ## **🔄 Booking Flow Diagram**
+![Diagram](./screenshot/bookingflowdiagram.png)
 ## **🚀Getting Started**
 
 To get a local copy up and running, follow these simple steps.
