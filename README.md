@@ -270,17 +270,19 @@ SERVICE_KEY=your_emailjs_service_key
 - PCI-Compliant secure transactions
 ## **📸 Screenshots**
 
-![Home Page](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![Home Page](/screenshot/Home.png)
 
-![Footer](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![Footer](/screenshot/Footer.png)
 
-![Sign up](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![Sign up](/screenshot/Account.png)
 
-![email for successfully register](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![email for successfully register](/screenshot/accountregister.png)
 
-![Otp fpr login](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
 
-![listing](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+
+![account dashboard](./screenshot/accountdashboard.png)
+
+![Listing Hotel](./screenshot/hotelregister.png)
 
 ![Owner Dashboard](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
 
