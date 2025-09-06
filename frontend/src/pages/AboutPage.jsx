@@ -12,7 +12,9 @@ const AboutPage = () => {
   ];
 
   const team = [
-    { name: "Baljeet Kumar Patel", role: "Full-Stack Developer & Data Scientist", image: assets.user1 },
+    { name: "Baljeet Kumar Patel", 
+      role: "Full-Stack Developer & Data Scientist", 
+      image:assets.Myphoto },
     // Add more team members here
   ];
 
@@ -129,11 +131,19 @@ const AboutPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.2 }}
             >
-              <img
+              {/* <img
                 src={member.image}
                 alt={member.name}
                 className="w-28 h-28 rounded-full mb-2 object-cover shadow-md"
-              />
+              /> */}
+              <div className="w-40 h-40 overflow-hidden rounded-full shadow-md">
+                      <img
+                          src={member.image}
+                          alt={member.name}
+                          className="w-full h-full object-cover"
+                        />
+              </div>
+
               <p className="font-semibold text-gray-800">{member.name}</p>
               <p className="text-gray-600 text-sm">{member.role}</p>
             </motion.div>

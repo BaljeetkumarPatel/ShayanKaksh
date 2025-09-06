@@ -31,13 +31,19 @@ import regImage from './regImage.png'
 import exclusiveOfferCardImg1 from "./exclusiveOfferCardImg1.png";
 import exclusiveOfferCardImg2 from "./exclusiveOfferCardImg2.png";
 import exclusiveOfferCardImg3 from "./exclusiveOfferCardImg3.png";
+import Myphoto from "./Myphoto.jpg";
 // import addIcon from "./addIcon.svg";
 import dashboardIcon from "./dashboardIcon.svg";
 import listIcon from "./listIcon.svg";
 import uploadArea from "./uploadArea.svg";
 import totalBookingIcon from "./totalBookingIcon.svg";
 import totalRevenueIcon from "./totalRevenueIcon.svg";
-
+import pressbackground from "./pressbackground.png";
+import lonelyplanet from "./lonelyplanet.png";
+import tripadvisor from "./tripadvisor.png";
+import hotelx from "./hotelx.png";
+import BookingH from "./BookingH.png";
+import Expedia from "./Expedia.png";
 
 export const assets = {
     logo,
@@ -71,6 +77,13 @@ export const assets = {
     listIcon,
     uploadArea,
     totalBookingIcon,
+    Myphoto,
+    pressbackground,
+    lonelyplanet,
+    tripadvisor,
+    hotelx,
+    BookingH,
+    Expedia,
     totalRevenueIcon,
 }
 
