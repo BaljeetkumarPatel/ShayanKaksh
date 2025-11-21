@@ -20,34 +20,47 @@ const app = express();
 
 
 // app.use(cors());  //allow to backend to any frontend-Enable cross-origin resource sharing
-const allowedOrigins = [
-  "http://localhost:5173",         // local vite frontend
-  "https://shayan-kaksh.vercel.app" // deployed frontend
-];
+// const allowedOrigins = [
+//   "http://localhost:5173",         // local vite frontend
+//   "https://shayan-kaksh.vercel.app" // deployed frontend
+// ];
+
+// app.use(
+//   cors({
+//     origin: function (origin, callback) {
+//       if (!origin || allowedOrigins.includes(origin)) {
+//         callback(null, true);
+//       } else {
+//         callback(new Error("Not allowed by CORS"));
+//       }
+//     },
+//     credentials: true, // allow cookies & auth headers
+//   })
+// );
 
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true, // allow cookies & auth headers
+    origin: [
+      "http://localhost:5173",
+      "https://shayan-kaksh.vercel.app"
+    ],
+    methods: "GET,POST,PUT,DELETE,PATCH,OPTIONS",
+    allowedHeaders: "Content-Type,Authorization",
+    credentials: true,
   })
 );
-
 //api to listen to sstripe wwebhooks
 app.post('/api/stripe',express.raw({type:'application/json'}),stripeWebhooks);
 
 //Middleware
 app.use(express.json()); //to accept json data in body of request mean all request will pass in json method
-app.use(clerkMiddleware()); //clerk middleware
+
 
 
 //Api to listen webhook request from clerk
 app.use('/api/clerk',ClerkWebhooks);
+
+app.use(clerkMiddleware()); //clerk middleware
 
 app.get('/',(req,res)=>res.send("Api is Working"))
 app.use('/api/user',  UserRouter); 
