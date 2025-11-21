@@ -70,7 +70,7 @@
 
 // app.listen(PORT,console.log(`Server is running on port ${PORT}`));
 
-import express from 'express';
+  import express from 'express';
 import "dotenv/config";
 import cors from 'cors';
 import connectDB from './configs/db.js';
@@ -87,52 +87,56 @@ import { stripeWebhooks } from './controllers/stripeWebhooks.js';
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// DB + Cloudinary
 connectDB();
 connectCloudinary();
 
-// ---------- CORS FIRST ----------
+// ------------ CORS (before everything) ------------
 app.use(
   cors({
     origin: [
       "http://localhost:5173",
       "https://shayan-kaksh.vercel.app"
     ],
-    methods: "GET,POST,PUT,DELETE,PATCH,OPTIONS",
-    allowedHeaders: "Content-Type,Authorization",
     credentials: true,
+    methods: "GET,POST,PUT,DELETE,PATCH,OPTIONS",
+    allowedHeaders: "Content-Type,Authorization"
   })
 );
 
-// Allow OPTIONS BEFORE Clerk
-app.options("*", (req, res) => {
-  res.sendStatus(200);
-});
+// Allow OPTIONS requests BEFORE Clerk
+app.options("*", (req, res) => res.sendStatus(200));
 
-// ---------- Stripe Webhook BEFORE JSON PARSER ----------
+
+// ------------ STRIPE WEBHOOK (NO CLERK, NO JSON PARSER) ------------
 app.post(
   "/api/stripe",
   express.raw({ type: "application/json" }),
   stripeWebhooks
 );
 
-// ---------- JSON PARSER ----------
+
+// ------------ JSON PARSER ------------
 app.use(express.json());
 
-// ---------- Clerk Webhook PUBLIC ----------
+
+// ------------ CLERK WEBHOOK (must be BEFORE clerkMiddleware) ------------
 app.use("/api/clerk", ClerkWebhooks);
 
-// ---------- Apply Clerk Middleware ----------
+
+// ------------ APPLY CLERK (AFTER webhooks) ------------
 app.use(clerkMiddleware());
 
-// ---------- PUBLIC ROUTES ----------
-app.get("/", (req, res) => res.send("API is Working"));
-app.use("/api/rooms", roomRouter);  // GET / is PUBLIC
 
-// ---------- PROTECTED ROUTES ----------
+// ------------ PUBLIC ROUTES (no auth needed) ------------
+app.get("/", (req, res) => res.send("API is Working"));
+app.use("/api/rooms", roomRouter); // GET /api/rooms is public
+
+
+// ------------ PROTECTED ROUTES ------------
 app.use("/api/user", requireAuth(), UserRouter);
 app.use("/api/hotels", requireAuth(), hotelRouter);
 app.use("/api/bookings", requireAuth(), bookingRouter);
 
-app.listen(PORT, () => {
-  console.log(`Server running at ${PORT}`);
-});
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
