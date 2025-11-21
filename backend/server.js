@@ -70,7 +70,7 @@
 
 // app.listen(PORT,console.log(`Server is running on port ${PORT}`));
 
-  import express from 'express';
+import express from 'express';
 import "dotenv/config";
 import cors from 'cors';
 import connectDB from './configs/db.js';
@@ -85,13 +85,12 @@ import bookingRouter from './routes/bookingRoutes.js';
 import { stripeWebhooks } from './controllers/stripeWebhooks.js';
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
-// DB + Cloudinary
+// Initialize DB + Cloudinary
 connectDB();
 connectCloudinary();
 
-// ------------ CORS (before everything) ------------
+// ---------- CORS ----------
 app.use(
   cors({
     origin: [
@@ -104,39 +103,37 @@ app.use(
   })
 );
 
-// Allow OPTIONS requests BEFORE Clerk
+// Allow manual OPTIONS
 app.options("*", (req, res) => res.sendStatus(200));
 
 
-// ------------ STRIPE WEBHOOK (NO CLERK, NO JSON PARSER) ------------
+// ---------- STRIPE WEBHOOK ----------
 app.post(
   "/api/stripe",
   express.raw({ type: "application/json" }),
   stripeWebhooks
 );
 
-
-// ------------ JSON PARSER ------------
+// ---------- JSON PARSER ----------
 app.use(express.json());
 
-
-// ------------ CLERK WEBHOOK (must be BEFORE clerkMiddleware) ------------
+// ---------- Clerk Webhooks ----------
 app.use("/api/clerk", ClerkWebhooks);
 
-
-// ------------ APPLY CLERK (AFTER webhooks) ------------
+// ---------- Clerk Middleware ----------
 app.use(clerkMiddleware());
 
-
-// ------------ PUBLIC ROUTES (no auth needed) ------------
+// ---------- Public Routes ----------
 app.get("/", (req, res) => res.send("API is Working"));
-app.use("/api/rooms", roomRouter); // GET /api/rooms is public
+app.use("/api/rooms", roomRouter);
 
-
-// ------------ PROTECTED ROUTES ------------
+// ---------- Protected Routes ----------
 app.use("/api/user", requireAuth(), UserRouter);
 app.use("/api/hotels", requireAuth(), hotelRouter);
 app.use("/api/bookings", requireAuth(), bookingRouter);
 
+// ❌ REMOVE app.listen — Vercel handles server
+// app.listen(PORT, () => console.log("Running"));
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// ✅ Important: Export Express app for Vercel
+export default app;
